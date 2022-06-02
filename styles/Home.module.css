@@ -40,9 +40,104 @@
 }
 
 .title {
-  margin: 0;
+  margin: 0 0 2rem 0;
   line-height: 1.15;
   font-size: 4rem;
+}
+
+.textInput {
+  outline: none;
+  border: none;
+  font-size: 4rem;
+  /* text-align: center; */
+}
+
+.textForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.button {
+  fill: none;
+  font-size: 1rem;
+  /* border: none; */
+  /* gets rid of small edges around border */
+  width: 142px;
+  /* background: none; */
+  /* background-color: #4CAF50; Green */
+  /* border: none; */
+  /* color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px; */
+
+  transition: all 0.2s;
+  text-align: center;
+  border: 0.1em solid black;
+  border-radius: 0.5em;
+  background-color: transparent;
+  padding: 0.1em 0.2em;
+  color: black;
+  height: 90px;
+  width: 150px;
+  text-align: center;
+  font-size: 2.0rem;
+  font-weight: bold;
+}
+
+.button:hover {
+  /* color: rgba(255, 135, 243, 1); */
+  background-color: yellow;
+  transition: 0 0.2s;
+}
+
+.flexBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px
+}
+
+.bioDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.textArea {
+  /* changes the textarea font to the title font */
+  font-size: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  width: 500px;
+  height: 400px;
+  text-align: left;
+  border: none;
+}
+
+.inputBox {
+  font-size: 1.5em;
+}
+
+.checkBox {
+  width: 20px;
+  height: 20px;
+}
+
+.bioSubmit {
+  align-self: flex-end;
+}
+
+.alignRight {
+  align-self: flex-end;
 }
 
 .title,
@@ -105,6 +200,11 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
+}
+
+.bioForm {
+  width: 500px;
+  height: 700px;
 }
 
 .logo {
