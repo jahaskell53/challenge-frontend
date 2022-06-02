@@ -92,7 +92,7 @@
 
 .button:hover {
   /* color: rgba(255, 135, 243, 1); */
-  background-color: yellow;
+  background-color: orange;
   transition: 0 0.2s;
 }
 
