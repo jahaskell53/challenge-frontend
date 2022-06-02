@@ -2,8 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import cx from 'classnames';
-// TODO: factor out functions to be used in other files
+import cx from "classnames";
+import Form from "./Form";
+import Button from "./Button";
+
 const LIST_OF_AREAS = [
   "Software Engineering",
   "Data Science",
@@ -21,7 +23,7 @@ const GIF_WIDTH = "500px";
 const GIF_HEIGHT = "400px";
 const TRANSITION_TIME = 1000;
 var personDetails = {};
-  
+
 function handleNameSubmit(e) {
   e.preventDefault();
   personDetails["name"] = document.getElementById("name-input").value;
@@ -41,7 +43,6 @@ function handleAreaOfExpertiseSubmit(e) {
   e.preventDefault();
   const arrayOfExpertise = [];
   for (const area of LIST_OF_AREAS) {
-    console.log("id to search", area);
     if (document.getElementById(`expert-${area}`).checked) {
       arrayOfExpertise.push(area);
     }
@@ -92,6 +93,34 @@ function showBioPrompt() {
   document.getElementById("profile-img").src = DEFAULT_PROFILE_PATH;
 }
 
+function showAreaOfExpertisePrompt() {
+  transitionToNextStep("Which areas do you have expertise in?", "area-form");
+}
+
+function showHelpPrompt() {
+  transitionToNextStep("Which areas would you like help in?", "help-form");
+  setDisplayNone("area-form");
+}
+
+function showPositionPrompt() {
+  transitionToNextStep("What is your position?", "position-form");
+  setTimeout(
+    () => document.getElementById("position-input").focus(),
+    TRANSITION_TIME
+  );
+}
+
+function showNameInput() {
+  makeElementVisibleByRemovingDisplayNoneClass("name-form");
+  document.getElementById("name-input").focus();
+  document.getElementById("name-input").style.width = "400px";
+}
+
+function showNameOutput(nameString) {
+  const outputTxt = `Nice to meet you ${nameString}!`;
+  document.getElementById("title-prompt").innerText = outputTxt;
+}
+
 function createDefaultBio(name, position, areasOfExpertise, areasOfHelp) {
   const strSentenceExpertise = createStrSentence(areasOfExpertise);
   const strSentenceHelp = createStrSentence(areasOfHelp);
@@ -115,26 +144,6 @@ function createStrSentence(areasOfExpertise) {
   return stringListOfExpertise;
 }
 
-function showAreaOfExpertisePrompt() {
-  transitionToNextStep("Which areas do you have expertise in?", "area-form");
-}
-
-function showHelpPrompt() {
-  transitionToNextStep("Which areas would you like help in?", "help-form");
-  setDisplayNone("area-form");
-}
-
-function showPositionPrompt() {
-  transitionToNextStep("What is your position?", "position-form");
-  setTimeout(() => document.getElementById("position-input").focus(), TRANSITION_TIME);
-}
-
-function showNameInput() {
-  makeElementVisibleByRemovingDisplayNoneClass("name-form");
-  document.getElementById("name-input").focus();
-  document.getElementById("name-input").style.width = "400px"
-}
-
 function transitionToNextStep(titleTxt, nextElementId) {
   changeTitleText(titleTxt);
   setTimeout(
@@ -155,17 +164,14 @@ function changeTitleText(titleTxt) {
   document.getElementById("title-prompt").innerText = titleTxt;
 }
 
-function showNameOutput(nameString) {
-  const outputTxt = `Nice to meet you ${nameString}!`;
-  document.getElementById("title-prompt").innerText = outputTxt;
-}
 export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       changeTitleText("Let's start with your name.");
-    setTimeout(showNameInput, TRANSITION_TIME);
-  }, TRANSITION_TIME);
-  })
+      setTimeout(showNameInput, TRANSITION_TIME);
+    }, TRANSITION_TIME);
+  });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -178,84 +184,119 @@ export default function Home() {
           Hi, Welcome to Tapply!
         </h1>
         {/* Name form */}
-        <form
+        <Form
           id="name-form"
           onSubmit={handleNameSubmit}
-          className={styles.displayNone}
-          
         >
-        <div className={styles.flexBox}>
-          <input type="text" placeholder="Sophia Smith" id="name-input" className={styles.title && styles.textInput} />
-          <button className={styles.button} id="submit-button">Submit</button>
+          <div className={styles.flexBox}>
+            <input
+              type="text"
+              placeholder="Sophia Smith"
+              id="name-input"
+              className={styles.title && styles.textInput}
+            />
+            <Button className={styles.button}>
+              Submit
+            </Button>
           </div>
-        </form>
+        </Form>
+
         {/* Position form */}
-        <form
+        <Form
           id="position-form"
           onSubmit={handlePositionSubmit}
-          className={styles.displayNone}
         >
-        <div className={styles.flexBox}>
-          <input
-            type="text"
-            placeholder="Software Engineer at Google"
-            id="position-input"
-            style={{fontSize: "50px"}}
-            size="25"
-            className={styles.title && styles.textInput}
-          />
-          <button id="submit-button" className={styles.button}>Submit</button>
+          <div className={styles.flexBox}>
+            <input
+              type="text"
+              placeholder="Software Engineer at Google"
+              id="position-input"
+              style={{ fontSize: "50px" }}
+              size="25"
+              className={styles.title && styles.textInput}
+            />
+            <Button className={styles.button}>
+              Submit
+            </Button>
           </div>
-        </form>
+        </Form>
+
         {/* Area of expertise form */}
-        <form
+        <Form
           id="area-form"
           onSubmit={handleAreaOfExpertiseSubmit}
-          className={styles.displayNone}
         >
           {LIST_OF_AREAS.map((area) => (
             <>
-              <input type="checkbox" id={`expert-${area}`} className={styles.checkBox}  />
-              <label htmlFor={area} className={styles.inputBox}>{area}</label>
+              <input
+                type="checkbox"
+                id={`expert-${area}`}
+                className={styles.checkBox}
+              />
+              <label htmlFor={area} className={styles.inputBox}>
+                {area}
+              </label>
               <br />
             </>
           ))}
-          <button id="submit-button" className={cx(styles.button, styles.alignRight)}>Submit</button>
-        </form>
+          <Button
+            className={cx(styles.button, styles.alignRight)}
+          >
+            Submit
+          </Button>
+        </Form>
+
         {/* Help form */}
-        <form
+        <Form
           id="help-form"
           onSubmit={handleHelpSubmit}
-          className={styles.displayNone}
         >
           {LIST_OF_AREAS.map((area) => (
             <>
-              <input type="checkbox" id={`help-${area}`} className={styles.checkBox} />
-              <label htmlFor={area} className={styles.inputBox}>{area}</label>
+              <input
+                type="checkbox"
+                id={`help-${area}`}
+                className={styles.checkBox}
+              />
+              <label htmlFor={area} className={styles.inputBox}>
+                {area}
+              </label>
               <br />
             </>
           ))}
-          <button id="submit-button" className={cx(styles.button, styles.alignRight)}>Submit</button>
-        </form>
+          <Button
+            className={cx(styles.button, styles.alignRight)}
+          >
+            Submit
+          </Button>
+        </Form>
+
         {/* Bio form */}
-        {/*Make this bigger */}
-        <form
+        <Form
           id="bio-form"
           onSubmit={handleBioSubmit}
-          className={styles.displayNone}
         >
-        <div id="bio-div" className={styles.bioDiv}>
-          <Image
-            id="profile-img"
-            src={DEFAULT_PROFILE_PATH}
-            width={DEFAULT_PROFILE_WIDTH}
-            height={DEFAULT_PROFILE_WIDTH}
-            alt="default profile image"
-          ></Image>
-          <textarea type="text" id="bio-input" className={cx(styles.title, styles.textArea)} />
-          <button id="submit-button" className={cx(styles.button, styles.bioSubmit)}>Submit</button>
+          <div id="bio-div" className={styles.bioDiv}>
+            <Image
+              id="profile-img"
+              src={DEFAULT_PROFILE_PATH}
+              width={DEFAULT_PROFILE_WIDTH}
+              height={DEFAULT_PROFILE_WIDTH}
+              alt="default profile image"
+            ></Image>
+            <textarea
+              type="text"
+              id="bio-input"
+              className={cx(styles.title, styles.textArea)}
+            />
+            <Button
+              id="submit-button"
+              className={cx(styles.button, styles.bioSubmit)}
+            >
+              Submit
+            </Button>
           </div>
-        </form>
+        </Form>
         <div id="gif-div" className={styles.displayNone}>
           <Image
             id="gif-img"
