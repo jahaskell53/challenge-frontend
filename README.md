@@ -6,11 +6,6 @@ This exercise is designed to give you unlimited creative freedom as you develop 
 
 Since we use Next.js as our frontend framework, we've included it as part of the repo; if you wish to use it, here's a good [starting point](https://nextjs.org/learn/basics/create-nextjs-app).
 
-## To get started:
-1. Fork or clone this repo.
-2. Implement your code.
-4. Send us a link to your repo for review and please use a free hosting resource such as [netlify](https://www.netlify.com/) so that we can review a live version of the challenge.
+# Tapply Setup
 
-Happy coding!
-
-`<Tapply team='Engineering' />`
+This repo holds a basic prototype for a signup prompt for Tapply. It asks users for their name, their position, their interests/areas of help, and then generates a sample bio, which the user can edit, based on their responses. This project was built using Next.js and CSS. 
